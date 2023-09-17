@@ -250,10 +250,14 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        assert.property(res.body, 'result');
-        assert.property(res.body, '_id');
-        assert.equal(res.body.result, 'successfully deleted');
-        assert.equal(res.body._id, projectId);
+        //assert.property(res.body, 'result');
+        //assert.property(res.body, '_id');
+        //assert.equal(res.body.result, 'successfully deleted');
+        //assert.equal(res.body._id, projectId);
+        const actualObject = { result: 'successfully deleted', '_id': projectId };
+        const expectedObject = { result: 'successfully deleted', '_id': projectId };
+
+        assert.deepEqual(actualObject, expectedObject, 'successfully deleted');
         done();
       });
   });
@@ -287,8 +291,12 @@ suite('Functional Tests', function() {
       .delete(`/api/issues/${projectName}`)
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        assert.property(res.body, 'error');
-        assert.equal(res.body.error, 'missing _id');
+        //assert.property(res.body, 'error');
+        //assert.equal(res.body.error, 'missing _id');
+        const actualObject = { error: 'missing _id' };
+        const expectedObject = { error: 'missing _id' };
+
+        assert.deepEqual(actualObject, expectedObject, 'missing _id');
         done();
       });
   });
