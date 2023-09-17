@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 suite('Functional Tests', function() {
   let projectId; // Store the _id of the created issue for later tests
-    /*
+    
   // Test 1: Create an issue with every field
   test(`POST request to /api/issues/${projectName} - Create an issue with every field`, function(done) {
     chai
@@ -94,7 +94,7 @@ suite('Functional Tests', function() {
         done();
       });
   });
-
+  /*
   // Test 4: View issues on a project
   test(`GET request to /api/issues/${projectName} - View issues on a project`, function(done) {
     chai
