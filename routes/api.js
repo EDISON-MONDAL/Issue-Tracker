@@ -141,7 +141,7 @@ module.exports = function (app) {
       let project = req.params.project;
       
       if(_id){ 
-        await issuesDBschema.findOneAndDelete({ _id: _id })
+        issuesDBschema.findOneAndDelete({ _id: _id })
         .then(()=>{
           res.json({ result: 'successfully deleted', '_id': _id })
         })
