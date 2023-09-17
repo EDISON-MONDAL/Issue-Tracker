@@ -7,12 +7,15 @@ module.exports = function (app) {
   app.route('/api/issues/:apitest')
 
     .get(async function (req, res){
-      const {issue_title, issue_text, created_on, updated_on, created_by, assigned_to, open, status_text} = req.query
+      const {_id, issue_title, issue_text, created_on, updated_on, created_by, assigned_to, open, status_text} = req.query
       let project = req.params.apitest;
       
       let query = {}
 
-      if(issue_title || issue_text || created_on || updated_on || created_by || assigned_to || open || status_text){
+      if( _id || issue_title || issue_text || created_on || updated_on || created_by || assigned_to || open || status_text){
+        if(_id){
+          query['_id'] = _id
+        }
         if(issue_title){
           query['issue_title'] = issue_title
         }
@@ -97,7 +100,9 @@ module.exports = function (app) {
       
       if(_id){ 
         if(issue_title || issue_text || created_by || assigned_to || status_text || open){
-            const updates = {}
+            const updates = {
+              updated_on: new Date()
+            }
             if(issue_title){
               updates['issue_title'] = issue_title
             }
