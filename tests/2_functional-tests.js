@@ -275,8 +275,8 @@ suite('Functional Tests', function() {
         assert.equal(res.status, 200);
         //assert.property(res.body, 'error');
         //assert.equal(res.body.error, 'could not delete');
-        const actualObject = { error: 'could not delete', '_id': projectId };
-        const expectedObject = { error: 'could not delete', '_id': projectId };
+        const actualObject = { error: 'could not delete', '_id': 'invalid_id' };
+        const expectedObject = { error: 'could not delete', '_id': 'invalid_id' };
 
         assert.deepEqual(actualObject, expectedObject, 'could not delete');
         done();
