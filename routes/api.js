@@ -43,8 +43,8 @@ module.exports = function (app) {
       }
       
       await issuesDBschema.find(
-        query, 
-        '_id issue_title issue_text created_on updated_on created_by assigned_to open status_text'
+        query
+        //'_id issue_title issue_text created_on updated_on created_by assigned_to open status_text'
       )
       .then((data)=>{
           res.json(data)
