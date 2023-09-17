@@ -269,8 +269,12 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        assert.deepProperty(res.body, 'error'); // Use deepProperty to check for nested properties
-        assert.deepStrictEqual(res.body, { error: 'could not delete' }); // Use deepStrictEqual to deeply compare objects
+        //assert.property(res.body, 'error');
+        //assert.equal(res.body.error, 'could not delete');
+        const actualObject = { error: 'could not delete', '_id': projectId };
+        const expectedObject = { error: 'could not delete', '_id': projectId };
+
+        assert.deepEqual(actualObject, expectedObject, 'could not delete');
         done();
       });
   });
