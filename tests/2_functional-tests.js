@@ -250,14 +250,14 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        //assert.property(res.body, 'result');
-        //assert.property(res.body, '_id');
-        //assert.equal(res.body.result, 'successfully deleted');
-        //assert.equal(res.body._id, projectId);
-        const actualObject = { result: 'successfully deleted', '_id': projectId };
-        const expectedObject = { result: 'successfully deleted', '_id': projectId };
+        assert.property(res.body, 'result');
+        assert.property(res.body, '_id');
+        assert.equal(res.body.result, 'successfully deleted');
+        assert.equal(res.body._id, projectId);
+        //const actualObject = { result: 'successfully deleted', '_id': projectId };
+        //const expectedObject = { result: 'successfully deleted', '_id': projectId };
 
-        assert.deepEqual(actualObject, expectedObject, 'successfully deleted');
+        //assert.deepEqual(actualObject, expectedObject, 'successfully deleted');
         done();
       });
   });
@@ -273,12 +273,12 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        //assert.property(res.body, 'error');
-        //assert.equal(res.body.error, 'could not delete');
-        const actualObject = { error: 'could not delete', '_id': 'invalid_id' };
-        const expectedObject = { error: 'could not delete', '_id': 'invalid_id' };
+        assert.property(res.body, 'error');
+        assert.equal(res.body.error, 'could not delete');
+        //const actualObject = { error: 'could not delete', '_id': projectId };
+        //const expectedObject = { error: 'could not delete', '_id': projectId };
 
-        assert.deepEqual(actualObject, expectedObject, 'could not delete');
+        //assert.deepEqual(actualObject, expectedObject, 'could not delete');
         done();
       });
   });
@@ -291,12 +291,12 @@ suite('Functional Tests', function() {
       .delete(`/api/issues/${projectName}`)
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        //assert.property(res.body, 'error');
-        //assert.equal(res.body.error, 'missing _id');
-        const actualObject = { error: 'missing _id' };
-        const expectedObject = { error: 'missing _id' };
+        assert.property(res.body, 'error');
+        assert.equal(res.body.error, 'missing _id');
+        //const actualObject = { error: 'missing _id' };
+        //const expectedObject = { error: 'missing _id' };
 
-        assert.deepEqual(actualObject, expectedObject, 'missing _id');
+        //assert.deepEqual(actualObject, expectedObject, 'missing _id');
         done();
       });
   });
