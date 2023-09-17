@@ -10,40 +10,40 @@ module.exports = function (app) {
       const {_id, issue_title, issue_text, created_on, updated_on, created_by, assigned_to, open, status_text} = req.query
       let project = req.params.apitest;
       
-      let query = {}
+      let queryDB = {}
 
       if( _id || issue_title || issue_text || created_on || updated_on || created_by || assigned_to || open || status_text){
         if(_id){
-          query['_id'] = _id
+          queryDB['_id'] = _id
         }
         if(issue_title){
-          query['issue_title'] = issue_title
+          queryDB['issue_title'] = issue_title
         }
         if(issue_text){
-          query['issue_text'] = issue_text
+          queryDB['issue_text'] = issue_text
         }
         if(created_on){
-          query['created_on'] = created_on
+          queryDB['created_on'] = created_on
         }
         if(updated_on){
-          query['updated_on'] = updated_on
+          queryDB['updated_on'] = updated_on
         }
         if(created_by){
-          query['created_by'] = created_by
+          queryDB['created_by'] = created_by
         }
         if(assigned_to){
-          query['assigned_to'] = assigned_to
+          queryDB['assigned_to'] = assigned_to
         }
         if(open){
-          query['open'] = open
+          queryDB['open'] = open
         }
         if(status_text){
-          query['status_text'] = status_text
+          queryDB['status_text'] = status_text
         }
       }
       
       await issuesDBschema.find(
-        query
+        queryDB
         //'_id issue_title issue_text created_on updated_on created_by assigned_to open status_text'
       )
       .then((data)=>{
