@@ -97,8 +97,7 @@ module.exports = function (app) {
       
       if(_id){ 
         if(issue_title || issue_text || created_by || assigned_to || status_text || open){
-            const updates = {issue_title, issue_text, created_by, assigned_to, status_text, open}
-            /*
+            const updates = {}
             if(issue_title){
               updates['issue_title'] = issue_title
             }
@@ -117,7 +116,6 @@ module.exports = function (app) {
             if(open){
               updates['open'] = open
             }
-            */
 
 
 
@@ -138,9 +136,22 @@ module.exports = function (app) {
       
     })
     
-    .delete(function (req, res){
+    .delete(async function (req, res){
+      const { _id} = req.body
       let project = req.params.project;
       
+      if(_id){ 
+        await issuesDBschema.findOneAndDelete({ _id: _id })
+        .then(()=>{
+          res.json({ result: 'successfully deleted', '_id': _id })
+        })
+        .catch((err)=>{
+          res.json({ error: 'could not delete', '_id': _id })
+        })
+
+      }  else {
+        res.json({ error: 'missing _id' })
+      }
     });
     
 };
