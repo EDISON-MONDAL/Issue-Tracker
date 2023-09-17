@@ -276,7 +276,7 @@ suite('Functional Tests', function() {
         assert.property(res.body, 'error');
         assert.property(res.body, '_id');
         assert.equal(res.body.error, 'could not delete');
-        assert.equal(res.body._id, projectId);
+        assert.equal(res.body._id, 'invalid_id');
         //const actualObject = { error: 'could not delete', '_id': projectId };
         //const expectedObject = { error: 'could not delete', '_id': projectId };
 
