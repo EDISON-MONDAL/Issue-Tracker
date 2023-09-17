@@ -91,9 +91,35 @@ module.exports = function (app) {
       
     })
     
-    .put(function (req, res){
+    .put(async function (req, res){
+      const { _id, issue_title, issue_text, created_by, assigned_to, status_text, open} = req.body
       let project = req.params.apitest;
-      console.log(project)
+      
+      if(_id){ 
+        if(issue_title || issue_text || created_by || assigned_to || status_text || open){
+            const updates = {
+              issue_title, 
+              issue_text, 
+              created_by, 
+              assigned_to, 
+              status_text, 
+              open
+            }
+
+            issuesDBschema.findByIdAndUpdate(_id, updates, { new: true, useFindAndModify: false })
+            .then(()=>{
+              res.json({  result: 'successfully updated', '_id': _id })
+            })
+            .catch((err)=>{
+              res.json({ error: 'could not update', '_id': _id })
+            })
+        } else {
+          res.json({ error: 'no update field(s) sent', '_id': _id })
+        }
+
+      }  else {
+        res.json({ error: 'missing _id' })
+      }
       
     })
     

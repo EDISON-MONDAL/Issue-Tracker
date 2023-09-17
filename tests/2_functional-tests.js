@@ -143,7 +143,7 @@ suite('Functional Tests', function() {
       });
   });
   */
-/*
+
   // Test 7: Update one field on an issue
   test(`PUT request to /api/issues/${projectName} - Update one field on an issue`, function(done) {
     chai
@@ -238,7 +238,7 @@ suite('Functional Tests', function() {
         done();
       });
   });
-
+  /*
   // Test 12: Delete an issue
   test(`DELETE request to /api/issues/${projectName} - Delete an issue`, function(done) {
     chai
