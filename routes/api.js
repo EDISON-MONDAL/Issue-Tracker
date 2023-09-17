@@ -97,7 +97,8 @@ module.exports = function (app) {
       
       if(_id){ 
         if(issue_title || issue_text || created_by || assigned_to || status_text || open){
-            const updates = {}
+            const updates = {issue_title, issue_text, created_by, assigned_to, status_text, open}
+            /*
             if(issue_title){
               updates['issue_title'] = issue_title
             }
@@ -116,6 +117,7 @@ module.exports = function (app) {
             if(open){
               updates['open'] = open
             }
+            */
 
 
 
