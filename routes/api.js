@@ -97,14 +97,27 @@ module.exports = function (app) {
       
       if(_id){ 
         if(issue_title || issue_text || created_by || assigned_to || status_text || open){
-            const updates = {
-              issue_title, 
-              issue_text, 
-              created_by, 
-              assigned_to, 
-              status_text, 
-              open
+            const updates = {}
+            if(issue_title){
+              updates['issue_title'] = issue_title
             }
+            if(issue_text){
+              updates['issue_text'] = issue_text
+            }
+            if(created_by){
+              updates['created_by'] = created_by
+            }
+            if(assigned_to){
+              updates['assigned_to'] = assigned_to
+            }
+            if(status_text){
+              updates['status_text'] = status_text
+            }
+            if(open){
+              updates['open'] = open
+            }
+
+
 
             issuesDBschema.findByIdAndUpdate(_id, updates, { new: true, useFindAndModify: false })
             .then(()=>{
