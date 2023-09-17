@@ -94,7 +94,7 @@ suite('Functional Tests', function() {
         done();
       });
   });
-  /*
+  
   // Test 4: View issues on a project
   test(`GET request to /api/issues/${projectName} - View issues on a project`, function(done) {
     chai
@@ -107,7 +107,7 @@ suite('Functional Tests', function() {
         done();
       });
   });
-
+  /*
   // Test 5: View issues on a project with one filter
   test(`GET request to /api/issues/${projectName} - View issues on a project with one filter`, function(done) {
     chai
@@ -119,6 +119,11 @@ suite('Functional Tests', function() {
         assert.equal(res.status, 200);
         assert.isArray(res.body);
         // Add assertions for the filter here
+        const Issues = res.body;
+            Issues.forEach(issue => {
+            console.log('arr '+ issue.open)            
+            assert.isFalse(issue.open); // Ensure that each issue in the response is closed (open property is false)
+        });
         done();
       });
   });
@@ -137,7 +142,8 @@ suite('Functional Tests', function() {
         done();
       });
   });
-
+  */
+/*
   // Test 7: Update one field on an issue
   test(`PUT request to /api/issues/${projectName} - Update one field on an issue`, function(done) {
     chai
