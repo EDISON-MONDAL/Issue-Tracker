@@ -213,12 +213,10 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        //assert.property(res.body, 'error');
-        //assert.property(res.body, '_id');
-        //assert.equal(res.body.error, 'no update field(s) sent');
-        //assert.equal(res.body._id, projectId);
         assert.property(res.body, 'error');
-        assert.equal(res.body.error, 'could not update');
+        assert.property(res.body, '_id');
+        assert.equal(res.body.error, 'no update field(s) sent');
+        assert.equal(res.body._id, projectId);
         done();
       });
   });
@@ -235,13 +233,8 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        //assert.property(res.body, 'error');
-        //assert.equal(res.body.error, 'could not update');
-
         assert.property(res.body, 'error');
-        //assert.property(res.body, '_id');
-        assert.equal(res.body.error, 'no update field(s) sent');
-        //assert.equal(res.body._id, projectId);
+        assert.equal(res.body.error, 'could not update');
         done();
       });
   });

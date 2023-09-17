@@ -129,11 +129,10 @@ module.exports = function (app) {
               res.json({  result: 'successfully updated', '_id': _id })
             })
             .catch((err)=>{
-              res.json({ error: 'no update field(s) sent', '_id': _id })
+              res.json({ error: 'could not update', '_id': _id })
             })
         } else {
-          
-          res.json({ error: 'could not update', '_id': _id })
+          res.json({ error: 'no update field(s) sent', '_id': _id })
         }
 
       }  else {
