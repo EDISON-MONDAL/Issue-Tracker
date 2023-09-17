@@ -119,7 +119,7 @@ module.exports = function (app) {
 
 
 
-            issuesDBschema.findByIdAndUpdate(_id, updates, { new: true, useFindAndModify: false })
+            await issuesDBschema.findByIdAndUpdate(_id, updates, { new: true, useFindAndModify: false })
             .then(()=>{
               res.json({  result: 'successfully updated', '_id': _id })
             })
