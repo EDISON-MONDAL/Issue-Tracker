@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //Sample front-end
-app.route('/:apitest/')
+app.route('/:project/')
   .get(function (req, res) {
     res.sendFile(process.cwd() + '/views/issue.html');
   });

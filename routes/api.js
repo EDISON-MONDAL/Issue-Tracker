@@ -1,15 +1,31 @@
 'use strict';
 
-const issuesDBschema = require('../schema/schema')
+const mongoose = require('mongoose')
+
+const dbSchema = new mongoose.Schema({
+    issue_title: { type: String, default: '' },
+    issue_text: { type: String, default: '' },
+    created_on: { type: Date, default: Date.now },
+    updated_on: { type: Date, default: Date.now },
+    created_by: { type: String, default: '' },
+    assigned_to: { type: String, default: '' },
+    open: { type: Boolean, default: true },
+    status_text: { type: String, default: '' },
+})
+//module.exports = mongoose.model('issues', dbSchema)
+
+
+//const issuesDBschema = require('../schema/schema')
 
 module.exports = function (app) {
 
-  app.route('/api/issues/:apitest') //:apitest
+  app.route('/api/issues/:project') 
 
     .get(async function (req, res){
       const {_id, issue_title, issue_text, created_on, updated_on, created_by, assigned_to, open, status_text} = req.query
-      let project = req.params.apitest;
-      
+      let project = req.params.project;
+
+            
       let queryDB = {}
 
       if( _id || issue_title || issue_text || created_on || updated_on || created_by || assigned_to || open || status_text){
@@ -42,7 +58,7 @@ module.exports = function (app) {
         }
       }
       
-      await issuesDBschema.find(
+      await mongoose.model(project, dbSchema).find(
         queryDB
         //'_id issue_title issue_text created_on updated_on created_by assigned_to open status_text'
       )
@@ -57,10 +73,10 @@ module.exports = function (app) {
     
     .post(async function (req, res){
       const {issue_title, issue_text, created_by, assigned_to, status_text} = req.body
-      let project = req.params.apitest;
+      let project = req.params.project;
       
       if(issue_title && issue_text && created_by){
-        const putIssueInMongo = new issuesDBschema({
+        const putIssueInMongo = new mongoose.model(project, dbSchema)({
           issue_title,
           issue_text,
           created_by,
@@ -96,7 +112,7 @@ module.exports = function (app) {
     
     .put(async function (req, res){
       const { _id, issue_title, issue_text, created_by, assigned_to, status_text, open} = req.body
-      let project = req.params.apitest;
+      let project = req.params.project;
       
       if(_id){ 
         if(issue_title || issue_text || created_by || assigned_to || status_text || open){
@@ -124,7 +140,7 @@ module.exports = function (app) {
 
 
 
-            await issuesDBschema.findByIdAndUpdate(_id, updates, { new: true, useFindAndModify: false })
+            await mongoose.model(project, dbSchema).findByIdAndUpdate(_id, updates, { new: true, useFindAndModify: false })
             .then(()=>{
               res.json({  result: 'successfully updated', '_id': _id })
             })
@@ -146,7 +162,7 @@ module.exports = function (app) {
       let project = req.params.project;
       
       if(_id){ 
-        issuesDBschema.findOneAndDelete({ _id: _id })
+        await mongoose.model(project, dbSchema).findOneAndDelete({ _id: _id })
         .then(()=>{
           res.json({ result: 'successfully deleted', '_id': _id })
         })
