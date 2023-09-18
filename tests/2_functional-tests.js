@@ -239,7 +239,9 @@ suite('Functional Tests', function() {
         assert.equal(res.status, 200);
         console.log('body11 for invalid _id -'+res.body.error+ ' _id ' + res.body._id)
         assert.property(res.body, 'error');
+        assert.property(res.body, '_id');
         assert.equal(res.body.error, 'could not update');
+        assert.equal(res.body._id, res.body._id);
         done();
       });
   });
