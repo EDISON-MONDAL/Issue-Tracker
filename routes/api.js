@@ -21,6 +21,7 @@ module.exports = function (app) {
   app.route('/api/issues/:project') 
 
     .get(async function (req, res){
+      
       const {_id, issue_title, issue_text, created_on, updated_on, created_by, assigned_to, open, status_text} = req.query
       let project = req.params.project;
 
@@ -58,8 +59,8 @@ module.exports = function (app) {
       }
       
       await mongoose.model(project, dbSchema).find(
-        queryDB
-        //'_id issue_title issue_text created_on updated_on created_by assigned_to open status_text'
+        queryDB,
+        '_id issue_title issue_text created_on updated_on created_by assigned_to open status_text'
       )
       .then((data)=>{
           res.json(data)
@@ -68,6 +69,50 @@ module.exports = function (app) {
         res.json({ error: 'Either empty or wrong query!'})
       })
       
+     /*
+      let projectName = req.params.project;
+      //?open=true&assigned_to=Joe
+      const {
+        _id,
+        open,
+        issue_title,
+        issue_text,
+        created_by,
+        assigned_to,
+        status_text,
+      } = req.query;
+
+      new mongoose.model(project, dbSchema).aggregate([
+        _id != undefined
+          ? { $match: { "_id": _id } }
+          : { $match: {} },
+        open != undefined
+          ? { $match: { "open": open } }
+          : { $match: {} },
+        issue_title != undefined
+          ? { $match: { "issue_title": issue_title } }
+          : { $match: {} },
+        issue_text != undefined
+          ? { $match: { "issue_text": issue_text } }
+          : { $match: {} },
+        created_by != undefined
+          ? { $match: { "created_by": created_by } }
+          : { $match: {} },
+        assigned_to != undefined
+          ? { $match: { "assigned_to": assigned_to } }
+          : { $match: {} },
+        status_text != undefined
+          ? { $match: { "status_text": status_text } }
+          : { $match: {} },
+      ]).exec((err, data) => {
+        if (!data) {
+          res.json([]);
+        } else {
+          
+          res.json(data);
+        }
+      });
+      */
     })
     
     .post(async function (req, res){

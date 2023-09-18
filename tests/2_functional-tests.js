@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 suite('Functional Tests', function() {
   let projectId; // Store the _id of the created issue for later tests
-    /*
+    
   // Test 1: Create an issue with every field
   test(`POST request to /api/issues/${projectName} - Create an issue with every field`, function(done) {
     chai
@@ -44,7 +44,7 @@ suite('Functional Tests', function() {
         done();
       });
   });
-
+  
   // Test 2: Create an issue with only required fields
   test(`POST request to /api/issues/${projectName} - Create an issue with only required fields`, function(done) {
     chai
@@ -114,15 +114,26 @@ suite('Functional Tests', function() {
       .request(server)
       .keepOpen()
       .get(`/api/issues/${projectName}`)
-      .query({ open: 'false' }) // Example filter by open issues
+      .query({ _id: "6507abfccb5c2680819604d9", }) // Example filter by open issues
       .end(function(err, res) {
         assert.equal(res.status, 200);
         assert.isArray(res.body);
-        // Add assertions for the filter here
-               
+        //console.log(res.body[0])
+        assert.deepEqual(res.body[0], {
+            _id: '6507abfccb5c2680819604d9',
+            issue_title: 'Required Field Issue',
+            issue_text: 'This issue only has required fields',
+            created_by: 'RequiredUser',
+            assigned_to: '',
+            open: true,
+            status_text: '',
+            created_on: '2023-09-18T01:46:36.256Z',
+            updated_on: '2023-09-18T01:46:36.256Z',
+        });     
         done();
       });
   });
+  
 
   // Test 6: View issues on a project with multiple filters
   test(`GET request to /api/issues/${projectName} - View issues on a project with multiple filters`, function(done) {
@@ -130,11 +141,22 @@ suite('Functional Tests', function() {
       .request(server)
       .keepOpen()
       .get(`/api/issues/${projectName}`)
-      .query({ open: 'false', created_by: 'TestUser' }) // Example filters
+      .query({ _id: '6507abfccb5c2680819604d9', created_by: 'RequiredUser' }) // Example filters
       .end(function(err, res) {
         assert.equal(res.status, 200);
         assert.isArray(res.body);
         // Add assertions for the filters here
+        assert.deepEqual(res.body[0], {
+            _id: '6507abfccb5c2680819604d9',
+            issue_title: 'Required Field Issue',
+            issue_text: 'This issue only has required fields',
+            created_by: 'RequiredUser',
+            assigned_to: '',
+            open: true,
+            status_text: '',
+            created_on: '2023-09-18T01:46:36.256Z',
+            updated_on: '2023-09-18T01:46:36.256Z',
+        });
         done();
       });
   });
@@ -152,7 +174,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        console.log('body7 Update one field -'+res.body.result + ' id'+ res.body._id)
+        //console.log('body7 Update one field -'+res.body.result + ' id'+ res.body._id)
         assert.property(res.body, 'result');
         assert.property(res.body, '_id');
         assert.equal(res.body.result, 'successfully updated');
@@ -174,7 +196,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        console.log('body8 Update multiple fields -'+res.body.result + ' id'+ res.body._id)
+        //console.log('body8 Update multiple fields -'+res.body.result + ' id'+ res.body._id)
         assert.property(res.body, 'result');
         assert.property(res.body, '_id');
         assert.equal(res.body.result, 'successfully updated');
@@ -194,7 +216,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        console.log('body9 with missing _id -'+res.body.error)
+        //console.log('body9 with missing _id -'+res.body.error)
         assert.property(res.body, 'error');
         assert.equal(res.body.error, 'missing _id');
         done();
@@ -212,7 +234,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        console.log('body10 with no fields to update -'+res.body.error + ' id'+ res.body._id)
+        //console.log('body10 with no fields to update -'+res.body.error + ' id'+ res.body._id)
         assert.property(res.body, 'error');
         assert.property(res.body, '_id');
         assert.equal(res.body.error, 'no update field(s) sent');
@@ -233,7 +255,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
-        console.log('body11 for invalid _id -'+res.body.error+ ' _id ' + res.body._id)
+        //console.log('body11 for invalid _id -'+res.body.error+ ' _id ' + res.body._id)
         assert.property(res.body, 'error');
         assert.equal(res.body.error, 'could not update');
         done();
@@ -255,10 +277,6 @@ suite('Functional Tests', function() {
         assert.property(res.body, '_id');
         assert.equal(res.body.result, 'successfully deleted');
         assert.equal(res.body._id, projectId);
-        //const actualObject = { result: 'successfully deleted', '_id': projectId };
-        //const expectedObject = { result: 'successfully deleted', '_id': projectId };
-
-        //assert.deepEqual(actualObject, expectedObject, 'successfully deleted');
         done();
       });
   });
@@ -278,10 +296,6 @@ suite('Functional Tests', function() {
         assert.property(res.body, '_id');
         assert.equal(res.body.error, 'could not delete');
         assert.equal(res.body._id, 'invalid_id');
-        //const actualObject = { error: 'could not delete', '_id': projectId };
-        //const expectedObject = { error: 'could not delete', '_id': projectId };
-
-        //assert.deepEqual(actualObject, expectedObject, 'could not delete');
         done();
       });
   });
@@ -296,12 +310,8 @@ suite('Functional Tests', function() {
         assert.equal(res.status, 200);
         assert.property(res.body, 'error');
         assert.equal(res.body.error, 'missing _id');
-        //const actualObject = { error: 'missing _id' };
-        //const expectedObject = { error: 'missing _id' };
-
-        //assert.deepEqual(actualObject, expectedObject, 'missing _id');
         done();
       });
   });
-  */
+  
 });
