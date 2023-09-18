@@ -244,6 +244,7 @@ suite('Functional Tests', function() {
         assert.equal(res.body.error, 'could not update');
         assert.equal(res.body._id, projectId); // added
         */
+       /*
        let showId;
        // Check if _id is invalid
       if (res.body._id === 'invalid_id') {
@@ -252,6 +253,11 @@ suite('Functional Tests', function() {
          
       } else showId = projectId
         assert.deepEqual(res.body, { error: 'could not update', '_id': showId });
+        */
+        
+        let responseObj = JSON.parse(res.res.text);
+        assert.equal(responseObj.error, "could not update");
+        assert.equal(responseObj._id, 'invalid_id');
         done();
       });
   });
