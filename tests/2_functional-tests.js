@@ -156,6 +156,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
+        console.log('body7 Update one field -'+res.body.result + ' id'+ res.body._id)
         assert.property(res.body, 'result');
         assert.property(res.body, '_id');
         assert.equal(res.body.result, 'successfully updated');
@@ -177,6 +178,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
+        console.log('body8 Update multiple fields -'+res.body.result + ' id'+ res.body._id)
         assert.property(res.body, 'result');
         assert.property(res.body, '_id');
         assert.equal(res.body.result, 'successfully updated');
@@ -196,6 +198,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
+        console.log('body9 with missing _id -'+res.body.error)
         assert.property(res.body, 'error');
         assert.equal(res.body.error, 'missing _id');
         done();
@@ -213,6 +216,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
+        console.log('body10 with no fields to update -'+res.body.error + ' id'+ res.body._id)
         assert.property(res.body, 'error');
         assert.property(res.body, '_id');
         assert.equal(res.body.error, 'no update field(s) sent');
@@ -233,6 +237,7 @@ suite('Functional Tests', function() {
       })
       .end(function(err, res) {
         assert.equal(res.status, 200);
+        console.log('body11 for invalid _id -'+res.body.error+ ' _id ' + res.body._id)
         assert.property(res.body, 'error');
         assert.equal(res.body.error, 'could not update');
         done();

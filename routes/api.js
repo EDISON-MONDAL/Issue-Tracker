@@ -147,6 +147,7 @@ module.exports = function (app) {
             .catch((err)=>{
               res.json({ error: 'could not update', '_id': _id })
             })
+            
         } else {
           res.json({ error: 'no update field(s) sent', '_id': _id })
         }
