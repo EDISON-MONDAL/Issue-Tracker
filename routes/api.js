@@ -4,7 +4,7 @@ const issuesDBschema = require('../schema/schema')
 
 module.exports = function (app) {
 
-  app.route('/api/issues/apitest') //:apitest
+  app.route('/api/issues/:apitest') //:apitest
 
     .get(async function (req, res){
       const {_id, issue_title, issue_text, created_on, updated_on, created_by, assigned_to, open, status_text} = req.query
