@@ -244,7 +244,14 @@ suite('Functional Tests', function() {
         assert.equal(res.body.error, 'could not update');
         assert.equal(res.body._id, projectId); // added
         */
-        assert.deepEqual(res.body, { error: 'could not update', '_id': res.body._id });
+       let showId;
+       // Check if _id is invalid
+      if (res.body._id === 'invalid_id') {
+        // Replace _id with projectId
+        showId = res.body._id
+         
+      } else showId = projectId
+        assert.deepEqual(res.body, { error: 'could not update', '_id': showId });
         done();
       });
   });
