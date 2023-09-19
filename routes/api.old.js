@@ -1,6 +1,19 @@
 'use strict';
 
-const issuesDBschema = require('../schema/schema')
+const mongoose = require('mongoose')
+
+const dbSchema = new mongoose.Schema({
+    issue_title: { type: String, default: '' },
+    issue_text: { type: String, default: '' },
+    created_on: { type: Date, default: Date.now },
+    updated_on: { type: Date, default: Date.now },
+    created_by: { type: String, default: '' },
+    assigned_to: { type: String, default: '' },
+    open: { type: Boolean, default: true },
+    status_text: { type: String, default: '' },
+})
+//module.exports = mongoose.model('issues', dbSchema)
+//const issuesDBschema = require('../schema/schema')
 
 
 module.exports = function (app) {
@@ -13,7 +26,6 @@ module.exports = function (app) {
       let project = req.params.project;
                   
       let queryDB = {}
-      queryDB['projectName'] = project
 
       if( _id || issue_title || issue_text || created_on || updated_on || created_by || assigned_to || open || status_text){
         if(_id){
@@ -43,9 +55,8 @@ module.exports = function (app) {
         if(status_text){
           queryDB['status_text'] = status_text
         }
-      }
 
-        await issuesDBschema.find(
+        await mongoose.model(project, dbSchema).find(
           queryDB,
           '_id issue_title issue_text created_on updated_on created_by assigned_to open status_text'
         )
@@ -59,7 +70,24 @@ module.exports = function (app) {
         .catch((err)=>{
           res.json({ error: 'Either empty or wrong query!'})
         })
-      
+      } else {
+        await mongoose.model(project, dbSchema).find(
+          {
+
+          },
+          '_id issue_title issue_text created_on updated_on created_by assigned_to open status_text'
+        )
+        .then((data)=>{
+          if(data){
+            res.json(data)
+          } else{
+            res.json({ error: 'Either empty or wrong query!'})
+          }          
+        })
+        .catch((err)=>{
+          res.json({ error: 'Either empty or wrong query!'})
+        })
+      }
     })
     
     .post(async function (req, res){
@@ -67,13 +95,12 @@ module.exports = function (app) {
       let project = req.params.project;
       
       if(issue_title && issue_text && created_by){
-        const putIssueInMongo = new issuesDBschema({
+        const putIssueInMongo = new mongoose.model(project, dbSchema)({
           issue_title,
           issue_text,
           created_by,
           assigned_to,
-          status_text,  
-          projectName: project
+          status_text,            
         })
   
         try {      
@@ -109,7 +136,7 @@ module.exports = function (app) {
       
       if(_id){ 
         if(issue_title || issue_text || created_by || assigned_to || status_text || open){          
-            await issuesDBschema.findOne({ _id: _id, projectName: project })
+            await mongoose.model(project, dbSchema).findOne({ '_id': _id })
             .then(async (data) => { 
             
                 if(data){
@@ -166,19 +193,18 @@ module.exports = function (app) {
     .delete(async function (req, res){
       const { _id} = req.body
       let project = req.params.project;
-
-            
+      
       if(_id){        
-        await issuesDBschema.findOne({ _id: _id, projectName: project })
+        await mongoose.model(project, dbSchema).findOne({ _id: _id })
         .then(async (data) => { 
             if(data){             
-                
-                await issuesDBschema.findOneAndDelete({ _id: _id })
-                .then(()=>{ 
+              
+                await mongoose.model(project, dbSchema).findOneAndDelete({ _id: _id })
+                .then(()=>{
                   
                   res.json({ result: 'successfully deleted', '_id': _id })
                 })
-                .catch((err)=> { 
+                .catch((err)=> {
                   
                   res.json({ error: 'could not delete', '_id': _id });
                 })              
@@ -187,7 +213,7 @@ module.exports = function (app) {
               res.json({ error: 'could not delete', '_id': _id })
             }
         })
-        .catch((err)=>{      
+        .catch((err)=>{       
           res.json({ error: 'could not delete', '_id': _id })             
         })
 

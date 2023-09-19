@@ -9,6 +9,7 @@ const dbSchema = new mongoose.Schema({
     assigned_to: { type: String, default: '' },
     open: { type: Boolean, default: true },
     status_text: { type: String, default: '' },
+    projectName: { type: String, require: true}
 })
 
 

@@ -21,7 +21,7 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 
 //connect to mongoose
 
-  mongoose.connect( process.env.db_uri )
+  mongoose.connect( process.env.db_uri, {useNewUrlParser: true, useUnifiedTopology: true} )
   .then(()=>{
     console.log('MongoDb successfully connected!')
   })
